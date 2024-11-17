@@ -219,14 +219,6 @@ for i, story in enumerate(generated_stories):
 #10
 
 def translate(texts, src_lang="lv", tgt_lang="en"):
-    """
-    Funkcija teksta tulkošanai no src_lang uz tgt_lang valodu.
-    
-    :param texts: Saraksts ar teikumiem, kas jāiztulko.
-    :param src_lang: Avota valodas kods (default: 'lv' - latviešu).
-    :param tgt_lang: Mērķa valodas kods (default: 'en' - angļu).
-    :return: Saraksts ar iztulkotajiem teikumiem.
-    """
     model_name = f'Helsinki-NLP/opus-mt-{src_lang}-{tgt_lang}'
     
     tokenizer = MarianTokenizer.from_pretrained(model_name)
