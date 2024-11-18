@@ -168,29 +168,31 @@ for i in range(len(words)):
 
 
 #8
-
-def extract_named_entities(text):
-    ner = spacy.load("en_core_web_sm")  
-    
-    doc = ner(text)
-
-    entities = {"Personvārdi": [], "Organizācijas": []}
-    for ent in doc.ents:
-        if ent.label_ == "PERSON":
-            entities["Personvārdi"].append(ent.text)
-        elif ent.label_ == "ORG":
-            entities["Organizācijas"].append(ent.text)
-
-    return entities
+nlp = spacy.load("xx_ent_wiki_sm") 
 
 text = "Valsts prezidents Egils Levits piedalījās pasākumā, ko organizēja Latvijas Universitāte."
 
-result = extract_named_entities(text)
+doc = nlp(text)
 
-print("Identificētās vienības:")
-for category, names in result.items():
-    print(f"{category}: {', '.join(names) if names else 'Nav atrasts'}")
+person_entities = []
+org_entities = []
 
+for ent in doc.ents:
+    if ent.label_ == "PER":
+        if ent.text.endswith("Universitāte"):
+            org_entities.append(ent.text)
+        else:
+            person_entities.append(ent.text)
+    elif ent.label_ == "ORG":
+        org_entities.append(ent.text)
+
+print("Personvārdi:")
+for person in person_entities:
+    print(f"- {person}")
+
+print("\nOrganizācijas:")
+for org in org_entities:
+    print(f"- {org}")
 
 #9
 def generate_story(starting_phrase, max_length=50, num_return_sequences=1):
